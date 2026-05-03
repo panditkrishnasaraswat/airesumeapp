@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ResuMax AI • Premium Intelligent Resume Builder</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#f8fbff;
+      --card:#ffffff;
+      --soft:#eef4ff;
+      --line:#dbe7ff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --brand:#2563eb;
+      --brand2:#1d4ed8;
+      --accent:#7c3aed;
+      --success:#16a34a;
+      --shadow:0 20px 60px rgba(37,99,235,.10);
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Inter',sans-serif;
+    }
+
+    body{
+      background:
+      radial-gradient(circle at top left,#dbeafe 0%,transparent 30%),
+      radial-gradient(circle at top right,#ede9fe 0%,transparent 30%),
+      linear-gradient(135deg,#f8fbff,#f1f7ff);
+      color:var(--text);
+    }
+
+    img{max-width:100%;display:block}
+    .hidden{display:none !important;}
+    button{cursor:pointer;border:none;outline:none}
+    input,textarea{outline:none}
+
+    /* ---------------- LANDING ---------------- */
+    .landing{
+      min-height:100vh;
+      padding:28px;
+    }
+
+    .container{
+      max-width:1280px;
+      margin:auto;
+    }
+
+    .nav{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:10px 0 24px;
+    }
+
+    .logo-wrap,.brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      color:#fff;
+      font-weight:900;
+      font-size:20px;
+      box-shadow:0 14px 30px rgba(37,99,235,.22);
+    }
+
+    .logo-wrap h2,.brand h1{
+      font-size:26px;
+      font-weight:900;
+    }
+
+    .logo-wrap p,.brand p{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+
+    .nav-actions{
+      display:flex;
+      gap:12px;
+    }
+
+    .btn{
+      padding:14px 20px;
+      border-radius:14px;
+      font-weight:800;
+      transition:.25s ease;
+      font-size:14px;
+    }
+
+    .btn-outline{
+      background:#fff;
+      border:1px solid var(--line);
+      color:var(--text);
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      color:#fff;
+      box-shadow:0 12px 24px rgba(37,99,235,.22);
+    }
+
+    .btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns:1.1fr .9fr;
+      gap:28px;
+      align-items:center;
+      min-height:calc(100vh - 120px);
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:#fff;
+      border:1px solid var(--line);
+      color:var(--brand);
+      padding:10px 14px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:800;
+      box-shadow:var(--shadow);
+      margin-bottom:18px;
+    }
+
+    .hero-left h1{
+      font-size:68px;
+      line-height:1.03;
+      letter-spacing:-2px;
+      font-weight:900;
+      margin-bottom:18px;
+    }
+
+    .hero-left h1 span{
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      -webkit-background-clip:text;
+      background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .hero-left p{
+      font-size:18px;
+      line-height:1.9;
+      color:var(--muted);
+      margin-bottom:28px;
+      max-width:700px;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:28px;
+    }
+
+    .hero-actions .btn{
+      padding:17px 24px;
+      border-radius:16px;
+      font-size:15px;
+    }
+
+    .mini-stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+    }
+
+    .mini-card,.card,.proof-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:20px;
+      box-shadow:var(--shadow);
+    }
+
+    .mini-card h3{
+      font-size:28px;
+      color:var(--brand);
+      font-weight:900;
+      margin-bottom:8px;
+    }
+
+    .mini-card p,.card p{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.8;
+    }
+
+    .glass{
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(255,255,255,.7);
+      -webkit-backdrop-filter:blur(18px);
+      backdrop-filter:blur(18px);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      padding:20px;
+    }
+
+    .hero-right{
+      display:grid;
+      gap:18px;
+    }
+
+    .dash-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:18px;
+    }
+
+    .dash-top h3{
+      font-size:20px;
+      font-weight:900;
+    }
+
+    .pill{
+      background:#ecfdf5;
+      color:var(--success);
+      font-size:12px;
+      font-weight:900;
+      padding:8px 12px;
+      border-radius:999px;
+    }
+
+    .score-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+
+    .score-card{
+      background:linear-gradient(135deg,#fff,#f8fbff);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:18px;
+    }
+
+    .score-card h4{
+      font-size:13px;
+      color:var(--muted);
+      margin-bottom:8px;
+    }
+
+    .score-card h2{
+      font-size:34px;
+      color:var(--brand);
+      font-weight:900;
+    }
+
+    .score-card p{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.6;
+      margin-top:6px;
+    }
+
+    .feature{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      background:#fff;
+      border:1px solid var(--line);
+      padding:14px;
+      border-radius:18px;
+      margin-bottom:12px;
+    }
+
+    .dot{
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg,var(--brand),var(--accent));
+      color:#fff;
+      font-weight:900;
+      flex-shrink:0;
+    }
+
+    .feature h4{
+      font-size:14px;
+      font-weight:900;
+      margin-bottom:4px;
+    }
+
+    .feature p{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .section-wrap{
+      padding:50px 0;
+    }
+
+    .section-head{
+      text-align:center;
+      margin-bottom:28px;
+    }
+
+    .section-head h2{
+      font-size:42px;
+      font-weight:900;
+      margin-bottom:12px;
+      letter-spacing:-1px;
+    }
+
+    .section-head p{
+      max-width:900px;
+      margin:auto;
+      color:var(--muted);
+      line-height:1.9;
+      font-size:16px;
+    }
+
+    .feature-grid,.proof-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .card h3,.proof-card h4{
+      font-size:20px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .card ul{
+      padding-left:18px;
+      color:var(--muted);
+      line-height:1.9;
+      font-size:14px;
+    }
+
+    .trust-strip{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:20px;
+      align-items:center;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .trust-strip h3{
+      font-size:30px;
+      font-weight:900;
+      margin-bottom:12px;
+    }
+
+    .trust-strip p{
+      font-size:15px;
+      color:var(--muted);
+      line-height:1.9;
+    }
+
+    .trust-image{
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid var(--line);
+    }
+
+    .proof-card{
+      padding:0;
+      overflow:hidden;
+    }
+
+    .proof-card img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+    }
+
+    .proof-card .content{
+      padding:16px;
+    }
+
+    .proof-card p{
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.8;
+    }
+
+    /* ---------------- BUILDER ---------------- */
+    .builder{
+      min-height:100vh;
+      padding:24px;
+      background:radial-gradient(circle at top left,rgba(96,165,250,.12),transparent 28%),
+                  radial-gradient(circle at bottom right,rgba(168,85,247,.12),transparent 25%),
+                  linear-gradient(180deg,#eef2ff,#f8fafc);
+    }
+
+    .app{
+      display:grid;
+      grid-template-columns:420px 1fr;
+      gap:22px;
+      min-height:calc(100vh - 48px);
+    }
+
+    .sidebar,.main{
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(37,99,235,.12);
+      -webkit-backdrop-filter:blur(18px);
+      backdrop-filter:blur(18px);
+      border-radius:32px;
+      box-shadow:0 30px 50px rgba(15,23,42,.08);
+    }
+
+    .sidebar{
+      padding:22px;
+      overflow:auto;
+    }
+
+    .main{
+      padding:24px;
+      overflow:auto;
+    }
+
+    .brand .logo{
+      width:48px;
+      height:48px;
+      border-radius:16px;
+      font-size:18px;
+    }
+
+    .toolbar{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin:18px 0 24px;
+    }
+
+    .toolbar button{
+      padding:14px;
+      border-radius:18px;
+      font-weight:800;
+      color:#fff;
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      transition:transform .2s ease, box-shadow .2s ease;
+      box-shadow:0 10px 24px rgba(37,99,235,.18);
+    }
+
+    .toolbar button:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 28px rgba(37,99,235,.22);
+    }
+
+    .template-picker{
+      display:grid;
+      gap:12px;
+      margin-bottom:16px;
+      padding:18px;
+      background:linear-gradient(180deg,rgba(59,130,246,.06),rgba(255,255,255,.95));
+      border:1px solid rgba(37,99,235,.16);
+      border-radius:24px;
+    }
+
+    .template-picker h4{
+      margin:0 0 10px;
+      font-size:15px;
+      font-weight:900;
+      color:var(--brand);
+    }
+
+    .template-list{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+    }
+
+    .template-button{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding:14px 10px;
+      border-radius:18px;
+      border:1px solid transparent;
+      background:#f8fafc;
+      color:#0f172a;
+      font-size:13px;
+      font-weight:800;
+      transition:background .2s ease,border-color .2s ease,transform .2s ease;
+    }
+
+    .template-button:hover{
+      background:#eff6ff;
+      transform:translateY(-1px);
+    }
+
+    .template-button.active{
+      border-color:var(--brand2);
+      background:linear-gradient(135deg,#eff6ff,#dbeafe);
+      color:var(--brand2);
+      box-shadow:0 12px 22px rgba(37,99,235,.14);
+    }
+
+    .builder-actions{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-bottom:16px;
+    }
+
+    .progress.wizard .bar{
+      width:0%;
+      transition:width .25s ease;
+    }
+
+    .dark-mode{
+      background:linear-gradient(180deg,#0f172a,#111827);
+      color:#e2e8f0;
+    }
+
+    body.dark-mode .landing,
+    body.dark-mode .builder,
+    body.dark-mode .sidebar,
+    body.dark-mode .main,
+    body.dark-mode .card,
+    body.dark-mode .form-card,
+    body.dark-mode .proof-card,
+    body.dark-mode .trust-strip{
+      background:rgba(15,23,42,.95);
+      border-color:rgba(100,116,139,.32);
+      color:#e2e8f0;
+    }
+
+    body.dark-mode input,
+    body.dark-mode textarea{
+      background:#111827;
+      color:#e2e8f0;
+      border-color:#475569;
+    }
+
+    body.dark-mode .template-button.active{
+      background:linear-gradient(135deg,#6366f1,#38bdf8);
+      color:#fff;
+    }
+
+    body.dark-mode .btn-outline{
+      background:#1f2937;
+      color:#e2e8f0;
+      border-color:#475569;
+    }
+
+    body.dark-mode .resume{
+      background:#111827;
+      border-color:rgba(148,163,184,.24);
+    }
+
+    body.dark-mode .resume .section{
+      background:rgba(255,255,255,.05);
+    }
+
+    .form-card{
+      background:linear-gradient(180deg,#ffffff,#f8fbff);
+      border:1px solid rgba(59,130,246,.12);
+      border-radius:26px;
+      padding:20px;
+      margin-bottom:16px;
+      box-shadow:0 20px 40px rgba(15,23,42,.05);
+    }
+
+    .form-title{
+      font-size:14px;
+      font-weight:900;
+      margin-bottom:12px;
+    }
+
+    .stepper{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:8px;
+      margin-bottom:14px;
+    }
+
+    .step{
+      padding:10px 12px;
+      border-radius:16px;
+      border:1px solid rgba(37,99,235,.18);
+      background:#fff;
+      font-size:12px;
+      font-weight:900;
+      color:var(--muted);
+      transition:.2s ease;
+    }
+
+    .step.active{
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+      color:#fff;
+      border-color:transparent;
+    }
+
+    .form-step{display:none;}
+    .form-step.active{display:block;}
+
+    .progress.wizard{
+      height:10px;
+      background:#e2e8f0;
+      border-radius:999px;
+      overflow:hidden;
+      margin-bottom:20px;
+    }
+
+    .form-card.stats{
+      padding:18px;
+    }
+
+    .list-item{
+      background:#f8fbff;
+      border:1px solid rgba(59,130,246,.15);
+      border-radius:18px;
+      padding:14px;
+      display:grid;
+      gap:10px;
+      margin-bottom:10px;
+    }
+
+    .list-item .remove-item{
+      justify-self:flex-end;
+      width:auto;
+      padding:10px 14px;
+      border-radius:12px;
+      background:#f8fafc;
+      color:var(--text);
+      border:1px solid rgba(37,99,235,.12);
+      cursor:pointer;
+    }
+
+    .add-button{
+      width:100%;
+      text-align:center;
+      margin-top:8px;
+      padding:14px;
+      background:rgba(37,99,235,.08);
+      color:var(--brand);
+      border-radius:16px;
+      font-weight:900;
+    }
+
+    .social-row{grid-template-columns:1fr 1fr;}
+
+    .step-actions{
+      display:flex;
+      gap:10px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+
+    .validation-message{
+      background:rgba(248,113,113,.12);
+      border:1px solid rgba(248,113,113,.25);
+      color:#b91c1c;
+      border-radius:16px;
+      padding:12px 14px;
+      margin-bottom:14px;
+      display:none;
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .app.preview-mode .sidebar{
+      display:none;
+    }
+
+    .app.preview-mode .main{
+      grid-column:1/-1;
+    }
+
+    .app.preview-mode .toolbar,
+    .app.preview-mode .builder-actions,
+    .app.preview-mode .template-picker,
+    .app.preview-mode .stepper,
+    .app.preview-mode .form-card,
+    .app.preview-mode .step-actions{
+      display:none;
+    }
+
+    .app.preview-mode .main{
+      padding:24px 16px 24px 16px;
+    }
+
+    .small{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:4px;
+    }
+
+    input,textarea{
+      width:100%;
+      padding:13px 14px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      font-size:14px;
+      background:#fff;
+      color:var(--text);
+    }
+
+    textarea{
+      min-height:86px;
+      resize:vertical;
+    }
+
+    input[type="file"]{
+      padding:.85rem 1rem;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:14px;
+      color:var(--text);
+      cursor:pointer;
+    }
+
+    .file-label{
+      display:block;
+      font-size:13px;
+      font-weight:700;
+      color:var(--muted);
+      margin-top:4px;
+      margin-bottom:8px;
+    }
+
+    input:focus,textarea:focus{
+      border-color:#93c5fd;
+      box-shadow:0 0 0 4px rgba(37,99,235,.10);
+    }
+
+    .action{
+      width:100%;
+      padding:13px;
+      border-radius:14px;
+      font-weight:900;
+      color:#fff;
+      background:linear-gradient(135deg,var(--brand),var(--brand2));
+    }
+
+    .stats{
+      display:grid;
+      gap:10px;
+    }
+
+    .stat{
+      background:linear-gradient(135deg,#fff,#f8fbff);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .stat-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:8px;
+    }
+
+    .stat-top span:first-child{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:800;
+    }
+
+    .stat-top span:last-child{
+      font-size:18px;
+      color:var(--brand);
+      font-weight:900;
+    }
+
+    .progress{
+      height:10px;
+      background:#e2e8f0;
+      border-radius:999px;
+      overflow:hidden;
+    }
+
+    .bar{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg,var(--brand),var(--accent));
+    }
+
+    .resume{
+      max-width:900px;
+      margin:auto;
+      background:#ffffff;
+      border-radius:32px;
+      overflow:hidden;
+      box-shadow:0 30px 60px rgba(15,23,42,.12);
+      border:1px solid rgba(37,99,235,.08);
+    }
+
+    .resume.template-modern .resume-top{
+      background:linear-gradient(135deg,#eef2ff,#f8fafc);
+    }
+
+    .resume.template-classic .resume-top{
+      background:#f8fafc;
+    }
+
+    .resume.template-creative .resume-top{
+      background:linear-gradient(135deg,#eef2ff,#ede9fe);
+    }
+
+    .resume.template-modern .section h3,
+    .resume.template-classic .section h3,
+    .resume.template-creative .section h3{
+      letter-spacing:1px;
+    }
+
+    .resume.template-modern .section{
+      background:rgba(59,130,246,.04);
+      border-radius:22px;
+      padding:22px;
+    }
+
+    .resume.template-classic .resume-body{
+      background:#f8fafc;
+      padding:32px;
+    }
+
+    .resume.template-classic .section{
+      background:#fff;
+      border-radius:20px;
+      padding:18px;
+      box-shadow:0 10px 20px rgba(15,23,42,.04);
+    }
+
+    .resume.template-creative .section{
+      border-left:4px solid var(--accent);
+      padding-left:18px;
+      background:rgba(124,58,237,.05);
+    }
+
+    .resume.template-creative .resume-top h2{
+      color:#4f46e5;
+    }
+
+    .resume.template-classic .resume-top h2{
+      color:#134e4a;
+    }
+
+    .resume.template-modern .resume-top h2{
+      color:#1d4ed8;
+    }
+
+    .resume-top{
+      padding:34px;
+      background:linear-gradient(135deg,#eff6ff,#f5f3ff);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .resume-top h2{
+      font-size:34px;
+      font-weight:900;
+    }
+
+    .resume-top p{
+      font-size:14px;
+      color:#475569;
+      margin-top:6px;
+    }
+
+    .footer-note{
+      max-width:1280px;
+      margin:28px auto 14px;
+      padding:18px 22px;
+      background:linear-gradient(135deg,rgba(37,99,235,.12),rgba(59,130,246,.08));
+      border:1px solid rgba(59,130,246,.18);
+      border-radius:28px;
+      color:#0f172a;
+      text-align:center;
+      box-shadow:0 18px 36px rgba(15,23,42,.08);
+      font-size:15px;
+      font-weight:700;
+      letter-spacing:0.2px;
+    }
+
+    .footer-note span{
+      display:inline-block;
+      margin-top:6px;
+      color:#1d4ed8;
+      font-weight:900;
+    }
+
+    .photo{
+      width:100px;
+      height:100px;
+      border-radius:24px;
+      object-fit:cover;
+      border:4px solid #fff;
+    }
+
+    .resume-body{
+      padding:34px;
+      display:grid;
+      gap:20px;
+    }
+
+    .section{
+      padding-bottom:16px;
+      border-bottom:1px solid #eef2f7;
+    }
+
+    .section:last-child{
+      border-bottom:none;
+    }
+
+    .section h3{
+      font-size:14px;
+      color:var(--brand);
+      font-weight:900;
+      margin-bottom:10px;
+      text-transform:uppercase;
+    }
+
+    .section p{
+      font-size:14px;
+      line-height:1.8;
+      color:#334155;
+      white-space:pre-line;
+    }
+
+    @media(max-width:1100px){
+      .hero,.app,.feature-grid,.proof-grid,.trust-strip{
+        grid-template-columns:1fr;
+      }
+      .hero-left h1{font-size:52px}
+    }
+
+    @media(max-width:700px){
+      .mini-stats,.toolbar,.row,.score-grid,.stepper,.social-row,
+      .app{
+        grid-template-columns:1fr;
+      }
+      .sidebar,.main{
+        grid-column:1/-1;
+        width:100%;
+      }
+      .hero-left h1{font-size:40px}
+      .section-head h2{font-size:32px}
+      .resume-top{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .stepper{overflow-x:auto;}
+      .step{min-width:140px;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LANDING PAGE -->
+  <section class="landing" id="landingPage">
+    <div class="container">
+
+      <div class="nav">
+        <div class="logo-wrap">
+          <div class="logo">AI</div>
+          <div>
+            <h2>ResuMax AI</h2>
+            <p>Premium Career Intelligence & Resume Optimization Platform</p>
+          </div>
+        </div>
+
+        <div class="nav-actions">
+          <button class="btn btn-outline">ATS Optimized</button>
+          <button class="btn btn-primary" onclick="openBuilder()">Build My Resume</button>
+        </div>
+      </div>
+
+      <div class="hero">
+        <div class="hero-left">
+          <div class="tag">✨ Trusted by Ambitious Students, Professionals & Career Builders</div>
+          <h1>Build a <span>Premium Professional Resume</span> That Looks Credible, Feels Powerful, and Gets You Noticed.</h1>
+          <p>
+            ResuMax AI is a premium next-generation resume building platform designed for professionals who want more than
+            just a resume. It helps users build trust, improve credibility, increase recruiter attention, and create
+            modern ATS-optimized resumes that are designed to perform in real hiring environments. From intelligent content
+            enhancement to premium visual formatting and ATS-driven optimization, ResuMax AI transforms ordinary resumes
+            into professional career assets built to impress.
+          </p>
+
+          <div class="hero-actions">
+            <button class="btn btn-primary" onclick="openBuilder()">Build My Resume</button>
+            <button class="btn btn-outline">See Live ATS Score</button>
+          </div>
+
+          <div class="mini-stats">
+            <div class="mini-card">
+              <h3>95+ Score</h3>
+              <p>Professionally optimized for ATS systems, recruiter visibility, and stronger digital hiring performance.</p>
+            </div>
+            <div class="mini-card">
+              <h3>3x Faster</h3>
+              <p>Create polished, recruiter-ready, modern resumes with intelligent AI support and faster workflows.</p>
+            </div>
+            <div class="mini-card">
+              <h3>Trusted Design</h3>
+              <p>Premium resume layouts designed to feel modern, reliable, professional, and instantly credible.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="glass">
+            <div class="dash-top">
+              <h3>Live Resume Intelligence Dashboard</h3>
+              <div class="pill">AI Powered</div>
+            </div>
+
+            <div class="score-grid">
+              <div class="score-card">
+                <h4>ATS Optimization Score</h4>
+                <h2>94/100</h2>
+                <p>Built to perform better inside modern applicant tracking systems used by recruiters and enterprises.</p>
+              </div>
+              <div class="score-card">
+                <h4>Job Match Relevance</h4>
+                <h2>87%</h2>
+                <p>Improves job relevance and keyword alignment for stronger shortlisting opportunities.</p>
+              </div>
+              <div class="score-card">
+                <h4>Resume Strength</h4>
+                <h2>Strong</h2>
+                <p>Structured with stronger language, better readability, and more professional recruiter appeal.</p>
+              </div>
+              <div class="score-card">
+                <h4>AI Content Quality</h4>
+                <h2>Premium</h2>
+                <p>Enhanced with polished wording, premium tone, and stronger professional presentation.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass">
+            <div class="feature">
+              <div class="dot">01</div>
+              <div>
+                <h4>Premium Professional Resume Writing</h4>
+                <p>Convert simple resume text into premium recruiter-ready language that sounds stronger, sharper, and more credible.</p>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="dot">02</div>
+              <div>
+                <h4>Enterprise ATS Optimization</h4>
+                <p>Improve ATS compatibility, keyword alignment, formatting structure, and recruiter search visibility instantly.</p>
+              </div>
+            </div>
+
+            <div class="feature">
+              <div class="dot">03</div>
+              <div>
+                <h4>Trust-Driven Premium Resume Design</h4>
+                <p>Use polished layouts designed to build confidence, trust, and stronger first impressions in seconds.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 1 -->
+      <div class="section-wrap">
+        <div class="trust-strip">
+          <div>
+            <h3>Built to Create Trust Before You Even Speak</h3>
+            <p>
+              In hiring, trust is everything. Before a recruiter reads your achievements, your resume has already created an impression.
+              ResuMax AI is built around this principle. Every section, every layout, every line of text is carefully designed to create
+              stronger trust, better readability, and a more professional first impression. It helps users look more credible, more
+              capable, and more prepared from the very first glance.
+            </p>
+          </div>
+          <div class="trust-image">
+            <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=1200&auto=format&fit=crop" alt="">
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 2 -->
+      <div class="section-wrap">
+        <div class="section-head">
+          <h2>Why ResuMax AI Feels More Professional</h2>
+          <p>
+            Most resume builders only help users fill boxes. ResuMax AI is designed to do far more. It helps users build stronger
+            professional identity, create higher recruiter confidence, and present themselves with modern career credibility.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="card">
+            <h3>Built for Real Hiring</h3>
+            <p>Designed around how recruiters scan, review, and shortlist candidates in real modern hiring workflows.</p>
+          </div>
+          <div class="card">
+            <h3>Designed for Better Trust</h3>
+            <p>Every resume created feels cleaner, more polished, and more credible to improve recruiter confidence instantly.</p>
+          </div>
+          <div class="card">
+            <h3>Optimized for Modern Careers</h3>
+            <p>Built for students, freshers, and professionals who want stronger resumes and smarter job opportunities.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 3 -->
+      <div class="section-wrap">
+        <div class="section-head">
+          <h2>Designed to Increase Attention, Trust & Shortlisting</h2>
+          <p>
+            ResuMax AI helps users move beyond basic resume creation and build something that feels valuable, intelligent,
+            premium, and professionally reliable.
+          </p>
+        </div>
+
+        <div class="proof-grid">
+          <div class="proof-card">
+            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop" alt="">
+            <div class="content">
+              <h4>Recruiter-Friendly Layouts</h4>
+              <p>Built to look clean, structured, professional, and instantly easier to review in seconds.</p>
+            </div>
+          </div>
+
+          <div class="proof-card">
+            <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=1200&auto=format&fit=crop" alt="">
+            <div class="content">
+              <h4>Designed for Real Hiring Teams</h4>
+              <p>Created to align with modern hiring teams, recruiter workflows, and practical shortlisting behavior.</p>
+            </div>
+          </div>
+
+          <div class="proof-card">
+            <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=1200&auto=format&fit=crop" alt="">
+            <div class="content">
+              <h4>Built for Better First Impressions</h4>
+              <p>Make resumes feel more premium, more capable, and more trustworthy from the first glance.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 4 -->
+      <div class="section-wrap">
+        <div class="section-head">
+          <h2>Why High-Performing Candidates Need Better Resume Systems</h2>
+          <p>
+            A resume is no longer just a document. It is your digital first impression, your credibility signal,
+            and often the first filter between being ignored and being shortlisted.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="card">
+            <h3>Improves Visibility</h3>
+            <ul>
+              <li>Stronger recruiter readability</li>
+              <li>Better ATS compatibility</li>
+              <li>Improved keyword relevance</li>
+              <li>Cleaner content hierarchy</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Improves Credibility</h3>
+            <ul>
+              <li>Professional content tone</li>
+              <li>Premium visual structure</li>
+              <li>Cleaner professional identity</li>
+              <li>More reliable presentation</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Improves Outcomes</h3>
+            <ul>
+              <li>Higher recruiter attention</li>
+              <li>Better shortlisting potential</li>
+              <li>Stronger job alignment</li>
+              <li>Improved first impressions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILDER -->
+  <section class="builder hidden" id="builderPage">
+    <div class="app">
+
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="logo">AI</div>
+          <div>
+            <h1>Resume Builder Pro</h1>
+            <p>Smart ATS Resume Generator</p>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <button onclick="goHome()">Home</button>
+          <button onclick="fillDemo()">Demo</button>
+          <button onclick="downloadPDF()">PDF</button>
+        </div>
+
+        <div class="builder-actions">
+          <button class="btn btn-outline" type="button" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+          <button class="btn btn-outline" type="button" onclick="togglePreview()" id="previewToggleBtn">Preview Resume</button>
+          <button class="btn btn-outline" type="button" onclick="copyShareLink()">Copy Share Link</button>
+          <button class="btn btn-outline" type="button" onclick="downloadCover()">Download Cover Letter</button>
+        </div>
+
+        <div class="template-picker">
+          <h4>Select Resume Template</h4>
+          <div class="template-list">
+            <button class="template-button active" id="templateModernBtn" onclick="setTemplate('modern')">Modern</button>
+            <button class="template-button" id="templateClassicBtn" onclick="setTemplate('classic')">Classic</button>
+            <button class="template-button" id="templateCreativeBtn" onclick="setTemplate('creative')">Creative</button>
+          </div>
+        </div>
+
+        <div class="stepper" id="wizardSteps">
+          <button class="step active" type="button" data-step="1" onclick="goStep(1)">1. Personal</button>
+          <button class="step" type="button" data-step="2" onclick="goStep(2)">2. Skills</button>
+          <button class="step" type="button" data-step="3" onclick="goStep(3)">3. Education</button>
+          <button class="step" type="button" data-step="4" onclick="goStep(4)">4. Experience</button>
+          <button class="step" type="button" data-step="5" onclick="goStep(5)">5. Extras</button>
+        </div>
+
+        <div class="validation-message" id="validationMessage"></div>
+        <div class="progress wizard" aria-hidden="true"><div class="bar" id="wizardBar"></div></div>
+
+        <div class="form-card form-step active" data-step="1">
+          <div class="form-title">Personal & Contact</div>
+          <div class="grid">
+            <input id="name" placeholder="Full Name">
+            <input id="role" placeholder="Target Position / Job Title">
+            <div class="row">
+              <input id="email" placeholder="Email Address">
+              <input id="phone" placeholder="Phone Number">
+            </div>
+            <div class="row social-row">
+              <input id="linkedin" placeholder="LinkedIn URL">
+              <input id="github" placeholder="GitHub URL">
+            </div>
+            <input id="portfolio" placeholder="Portfolio / Website">
+            <input id="location" placeholder="Address / Location">
+            <label for="photo" class="file-label">Upload Resume Photo</label>
+            <input id="photo" type="file" accept="image/*">
+            <textarea id="summary" placeholder="Professional Summary"></textarea>
+          </div>
+        </div>
+
+        <div class="form-card form-step" data-step="2">
+          <div class="form-title">Skills & Profile</div>
+          <div class="grid">
+            <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+            <textarea id="languages" placeholder="Languages"></textarea>
+            <textarea id="hobbies" placeholder="Hobbies / Interests (optional)"></textarea>
+          </div>
+        </div>
+
+        <div class="form-card form-step" data-step="3">
+          <div class="form-title">Education</div>
+          <div id="educationList"></div>
+          <button class="action add-button" type="button" onclick="addEducation()">+ Add Education</button>
+        </div>
+
+        <div class="form-card form-step" data-step="4">
+          <div class="form-title">Work Experience</div>
+          <div id="experienceList"></div>
+          <button class="action add-button" type="button" onclick="addExperience()">+ Add Role</button>
+        </div>
+
+        <div class="form-card form-step" data-step="5">
+          <div class="form-title">Projects & Career Details</div>
+          <div id="projectList"></div>
+          <button class="action add-button" type="button" onclick="addProject()">+ Add Project</button>
+          <textarea id="certifications" placeholder="Certifications"></textarea>
+          <textarea id="achievements" placeholder="Achievements"></textarea>
+          <div class="step-actions">
+            <button class="action" type="button" onclick="saveDraft()">Save Draft</button>
+            <button class="action" type="button" onclick="resetDraft()">Reset</button>
+            <textarea id="coverLetter" class="hidden"></textarea>
+          </div>
+        </div>
+
+        <div class="form-card stats">
+          <div class="stat">
+            <div class="stat-top">
+              <span>ATS Score</span>
+              <span id="ats">0/100</span>
+            </div>
+            <div class="progress">
+              <div class="bar" id="bar"></div>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-top">
+              <span>Job Match</span>
+              <span id="match">0%</span>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-top">
+              <span>Resume Strength</span>
+              <span id="strength">Weak</span>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-top">
+              <span>Completion</span>
+              <span id="completion">0/9</span>
+            </div>
+            <div class="progress">
+              <div class="bar" id="completionBar"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="action" type="button" onclick="prevStep()">Previous</button>
+          <button class="action" type="button" onclick="nextStep()">Next</button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <div class="resume template-modern" id="resumePreview">
+          <div class="resume-top">
+            <div>
+              <h2 id="pname">Your Name</h2>
+              <p id="pcontact">email@example.com | +91 XXXXX XXXXX</p>
+              <p id="psocial" class="small">linkedin.com/in/yourname | github.com/yourname | portfolio.com</p>
+              <p id="plocation" class="small">City, Country</p>
+            </div>
+            <img id="pphoto" class="photo" src="https://via.placeholder.com/100" alt="">
+          </div>
+
+          <div class="resume-body">
+            <div class="section"><h3>Professional Summary</h3><p id="psum"></p></div>
+            <div class="section"><h3>Core Skills</h3><p id="pskills"></p></div>
+            <div class="section"><h3>Work Experience</h3><p id="pexp"></p></div>
+            <div class="section"><h3>Projects</h3><p id="pproj"></p></div>
+            <div class="section"><h3>Education</h3><p id="pedu"></p></div>
+            <div class="section"><h3>Certifications</h3><p id="pcerts"></p></div>
+            <div class="section"><h3>Achievements</h3><p id="pachv"></p></div>
+            <div class="section"><h3>Languages</h3><p id="plangs"></p></div>
+            <div class="section"><h3>Interests</h3><p id="phobby"></p></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </section>
+
+      <div class="footer-note">
+        This app is created by <span>Krishna Saraswat</span> — building smarter resumes with premium design and polished experience.
+      </div>
+
+  <script>
+    let selectedTemplate = 'modern';
+    let currentStep = 1;
+    const maxStep = 5;
+    const draftKey = 'resumeDraft';
+
+    function openBuilder() {
+      document.getElementById('landingPage').classList.add('hidden');
+      document.getElementById('builderPage').classList.remove('hidden');
+      setTemplate(selectedTemplate);
+      showStep(currentStep);
+      loadDraft();
+    }
+
+    function goHome() {
+      document.getElementById('builderPage').classList.add('hidden');
+      document.getElementById('landingPage').classList.remove('hidden');
+    }
+
+    function goStep(step) {
+      if (step < 1 || step > maxStep) return;
+      if (step > currentStep && !validateStep(currentStep)) return;
+      currentStep = step;
+      showStep(step);
+    }
+
+    function nextStep() {
+      if (currentStep < maxStep && validateStep(currentStep)) {
+        goStep(currentStep + 1);
+      }
+    }
+
+    function prevStep() {
+      if (currentStep > 1) {
+        goStep(currentStep - 1);
+      }
+    }
+
+    function showStep(step) {
+      document.querySelectorAll('.form-step').forEach(function(card) {
+        card.classList.toggle('active', Number(card.dataset.step) === step);
+      });
+
+      document.querySelectorAll('.stepper .step').forEach(function(stepButton) {
+        stepButton.classList.toggle('active', Number(stepButton.dataset.step) === step);
+      });
+
+      const percent = Math.round(((step - 1) / (maxStep - 1)) * 100);
+      document.getElementById('wizardBar').style.width = percent + '%';
+    }
+
+    function setTemplate(value) {
+      selectedTemplate = value;
+      const preview = document.getElementById('resumePreview');
+      preview.classList.remove('template-modern', 'template-classic', 'template-creative');
+      preview.classList.add('template-' + value);
+
+      document.getElementById('templateModernBtn').classList.toggle('active', value === 'modern');
+      document.getElementById('templateClassicBtn').classList.toggle('active', value === 'classic');
+      document.getElementById('templateCreativeBtn').classList.toggle('active', value === 'creative');
+    }
+
+    function base64EncodeUnicode(str) {
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+        return String.fromCharCode('0x' + p1);
+      }));
+    }
+
+    function base64DecodeUnicode(str) {
+      return decodeURIComponent(Array.prototype.map.call(atob(str), function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    function togglePreview() {
+      const app = document.querySelector('.app');
+      const button = document.getElementById('previewToggleBtn');
+      if (!app || !button) return;
+      app.classList.toggle('preview-mode');
+      button.textContent = app.classList.contains('preview-mode') ? 'Edit Resume' : 'Preview Resume';
+    }
+
+    function copyShareLink() {
+      saveDraft();
+      const draft = JSON.parse(localStorage.getItem(draftKey) || '{}');
+      const encoded = base64EncodeUnicode(JSON.stringify(draft));
+      const url = location.href.split('#')[0] + '#resume=' + encodeURIComponent(encoded);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function() {
+          alert('Shareable resume link copied to clipboard.');
+        }, function() {
+          prompt('Copy this shareable link:', url);
+        });
+      } else {
+        prompt('Copy this shareable link:', url);
+      }
+    }
+
+    function getDraftFromHash() {
+      const hash = window.location.hash;
+      if (!hash.startsWith('#resume=')) return null;
+      try {
+        const encoded = hash.slice(8);
+        const json = base64DecodeUnicode(decodeURIComponent(encoded));
+        return JSON.parse(json);
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function downloadCover() {
+      generateCover();
+      const content = getValue('coverLetter');
+      if (!content.trim()) {
+        alert('Please generate a cover letter first.');
+        return;
+      }
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'cover-letter.txt';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    function validateStep(step) {
+      const missing = [];
+      if (step === 1) {
+        if (!getValue('name').trim()) missing.push('Full Name');
+        if (!getValue('role').trim()) missing.push('Target Role');
+        if (!getValue('email').trim()) missing.push('Email');
+        if (!getValue('phone').trim()) missing.push('Phone');
+        if (!getValue('summary').trim()) missing.push('Professional Summary');
+      }
+      if (step === 2) {
+        if (!getValue('skills').trim()) missing.push('Skills');
+      }
+      if (step === 3) {
+        const education = getSectionData('educationList', ['edu-degree', 'edu-institution']);
+        if (!education.some(function(item) { return item['edu-degree'] || item['edu-institution']; })) {
+          missing.push('Education');
+        }
+      }
+      if (step === 4) {
+        const experience = getSectionData('experienceList', ['exp-role', 'exp-company']);
+        if (!experience.some(function(item) { return item['exp-role'] || item['exp-company']; })) {
+          missing.push('Experience');
+        }
+      }
+      const messageElement = document.getElementById('validationMessage');
+      if (missing.length) {
+        if (messageElement) {
+          messageElement.textContent = 'Please complete: ' + missing.join(', ');
+          messageElement.style.display = 'block';
+        } else {
+          alert('Please complete: ' + missing.join(', '));
+        }
+        return false;
+      }
+      if (messageElement) {
+        messageElement.textContent = '';
+        messageElement.style.display = 'none';
+      }
+      return true;
+    }
+
+    function updateCompletion() {
+      const requiredFields = [
+        getValue('name'),
+        getValue('role'),
+        getValue('email'),
+        getValue('phone'),
+        getValue('summary'),
+        getValue('skills'),
+        getSectionData('educationList', ['edu-degree', 'edu-institution']).some(function(item) { return item['edu-degree'] || item['edu-institution']; }),
+        getSectionData('experienceList', ['exp-role', 'exp-company']).some(function(item) { return item['exp-role'] || item['exp-company']; }),
+        getSectionData('projectList', ['proj-title', 'proj-description']).some(function(item) { return item['proj-title'] || item['proj-description']; })
+      ];
+      const filled = requiredFields.filter(Boolean).length;
+      const total = requiredFields.length;
+      setText('completion', filled + '/' + total);
+      document.getElementById('completionBar').style.width = Math.round((filled / total) * 100) + '%';
+    }
+
+    function getValue(id) {
+      const element = document.getElementById(id);
+      return element ? element.value : '';
+    }
+
+    function setText(id, value) {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value;
+    }
+
+    function attachAutoSave(element) {
+      element.addEventListener('input', function() {
+        updatePreview();
+        saveDraft();
+      });
+    }
+
+    function safe(value) {
+      return (value || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function addEducation(data = {}) {
+      const container = document.getElementById('educationList');
+      const item = document.createElement('div');
+      item.className = 'list-item';
+      item.innerHTML = `
+        <div class="row">
+          <input class="edu-degree" placeholder="Degree / Course" value="${safe(data.degree)}">
+          <input class="edu-institution" placeholder="Institution" value="${safe(data.institution)}">
+        </div>
+        <div class="row">
+          <input class="edu-year" placeholder="Year / Duration" value="${safe(data.year)}">
+        </div>
+        <textarea class="edu-details" placeholder="Notes, honors, or focus areas">${safe(data.details)}</textarea>
+        <button type="button" class="remove-item">Remove</button>
+      `;
+      container.appendChild(item);
+      item.querySelectorAll('input,textarea').forEach(attachAutoSave);
+      item.querySelector('.remove-item').addEventListener('click', function() {
+        if (container.children.length > 1) {
+          item.remove();
+          updatePreview();
+          saveDraft();
+        }
+      });
+    }
+
+    function addExperience(data = {}) {
+      const container = document.getElementById('experienceList');
+      const item = document.createElement('div');
+      item.className = 'list-item';
+      item.innerHTML = `
+        <div class="row">
+          <input class="exp-role" placeholder="Role / Title" value="${safe(data.role)}">
+          <input class="exp-company" placeholder="Company" value="${safe(data.company)}">
+        </div>
+        <div class="row">
+          <input class="exp-period" placeholder="Period / Duration" value="${safe(data.period)}">
+        </div>
+        <textarea class="exp-details" placeholder="Key achievements and responsibilities">${safe(data.details)}</textarea>
+        <button type="button" class="remove-item">Remove</button>
+      `;
+      container.appendChild(item);
+      item.querySelectorAll('input,textarea').forEach(attachAutoSave);
+      item.querySelector('.remove-item').addEventListener('click', function() {
+        if (container.children.length > 1) {
+          item.remove();
+          updatePreview();
+          saveDraft();
+        }
+      });
+    }
+
+    function addProject(data = {}) {
+      const container = document.getElementById('projectList');
+      const item = document.createElement('div');
+      item.className = 'list-item';
+      item.innerHTML = `
+        <input class="proj-title" placeholder="Project Name" value="${safe(data.title)}">
+        <textarea class="proj-description" placeholder="Project description and impact">${safe(data.description)}</textarea>
+        <button type="button" class="remove-item">Remove</button>
+      `;
+      container.appendChild(item);
+      item.querySelectorAll('input,textarea').forEach(attachAutoSave);
+      item.querySelector('.remove-item').addEventListener('click', function() {
+        if (container.children.length > 1) {
+          item.remove();
+          updatePreview();
+          saveDraft();
+        }
+      });
+    }
+
+    function getSectionData(containerId, fields) {
+      const container = document.getElementById(containerId);
+      return Array.from(container.querySelectorAll('.list-item')).map(function(item) {
+        const record = {};
+        fields.forEach(function(field) {
+          const input = item.querySelector('.' + field);
+          record[field] = input ? input.value : '';
+        });
+        return record;
+      });
+    }
+
+    function formatEducation(items) {
+      return items
+        .map(function(item) {
+          const line1 = [item.edu-degree, item.edu-year].filter(Boolean).join(' • ');
+          const line2 = item.edu-institution;
+          const line3 = item.edu-details;
+          return [line1, line2, line3].filter(Boolean).join('\n');
+        })
+        .filter(Boolean)
+        .join('\n\n');
+    }
+
+    function formatExperience(items) {
+      return items
+        .map(function(item) {
+          const line1 = [item.exp-role, item.exp-company].filter(Boolean).join(' • ');
+          const line2 = item.exp-period;
+          const line3 = item.exp-details;
+          return [line1, line2, line3].filter(Boolean).join('\n');
+        })
+        .filter(Boolean)
+        .join('\n\n');
+    }
+
+    function formatProjects(items) {
+      return items
+        .map(function(item) {
+          const line1 = item.proj-title;
+          const line2 = item.proj-description;
+          return [line1, line2].filter(Boolean).join('\n');
+        })
+        .filter(Boolean)
+        .join('\n\n');
+    }
+
+    function clearContainer(id) {
+      const container = document.getElementById(id);
+      while (container.firstChild) {
+        container.removeChild(container.firstChild);
+      }
+    }
+
+    function initializeListSections() {
+      if (!document.getElementById('educationList').children.length) addEducation();
+      if (!document.getElementById('experienceList').children.length) addExperience();
+      if (!document.getElementById('projectList').children.length) addProject();
+    }
+
+    function saveDraft() {
+      const draft = {
+        name: getValue('name'),
+        role: getValue('role'),
+        email: getValue('email'),
+        phone: getValue('phone'),
+        linkedin: getValue('linkedin'),
+        github: getValue('github'),
+        portfolio: getValue('portfolio'),
+        location: getValue('location'),
+        summary: getValue('summary'),
+        skills: getValue('skills'),
+        languages: getValue('languages'),
+        hobbies: getValue('hobbies'),
+        certifications: getValue('certifications'),
+        achievements: getValue('achievements'),
+        education: getSectionData('educationList', ['edu-degree', 'edu-institution', 'edu-year', 'edu-details']),
+        experience: getSectionData('experienceList', ['exp-role', 'exp-company', 'exp-period', 'exp-details']),
+        projects: getSectionData('projectList', ['proj-title', 'proj-description'])
+      };
+
+      localStorage.setItem(draftKey, JSON.stringify(draft));
+    }
+
+    function loadDraft() {
+      const hashDraft = getDraftFromHash();
+      const stored = localStorage.getItem(draftKey);
+      const draft = hashDraft || (stored ? JSON.parse(stored) : null);
+
+      if (draft) {
+        ['name','role','email','phone','linkedin','github','portfolio','location','summary','skills','languages','hobbies','certifications','achievements'].forEach(function(id) {
+          const element = document.getElementById(id);
+          if (element && draft[id] !== undefined) {
+            element.value = draft[id];
+          }
+        });
+
+        clearContainer('educationList');
+        (draft.education && draft.education.length ? draft.education : [{}]).forEach(addEducation);
+
+        clearContainer('experienceList');
+        (draft.experience && draft.experience.length ? draft.experience : [{}]).forEach(addExperience);
+
+        clearContainer('projectList');
+        (draft.projects && draft.projects.length ? draft.projects : [{}]).forEach(addProject);
+      } else {
+        initializeListSections();
+      }
+
+      document.querySelectorAll('input,textarea').forEach(function(el) {
+        if (el.id) {
+          attachAutoSave(el);
+        }
+      });
+
+      updatePreview();
+    }
+
+    /* ---------------- PHOTO UPLOAD ---------------- */
+
+    document.getElementById('photo').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function() {
+        document.getElementById('pphoto').src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    function updatePreview() {
+      setText('pname', getValue('name') || 'Your Name');
+      setText('pcontact', `${getValue('email') || 'email@example.com'} | ${getValue('phone') || '+91 XXXXX XXXXX'}`);
+
+      const socialLinks = [getValue('linkedin'), getValue('github'), getValue('portfolio')].filter(Boolean).join(' | ');
+      setText('psocial', socialLinks || 'LinkedIn | GitHub | Portfolio');
+      setText('plocation', getValue('location') || 'Location');
+
+      setText('psum', getValue('summary'));
+      setText('pskills', getValue('skills'));
+      setText('plangs', getValue('languages'));
+      setText('phobby', getValue('hobbies'));
+      setText('pcerts', getValue('certifications'));
+      setText('pachv', getValue('achievements'));
+
+      setText('pexp', formatExperience(getSectionData('experienceList', ['exp-role', 'exp-company', 'exp-period', 'exp-details'])));
+      setText('pproj', formatProjects(getSectionData('projectList', ['proj-title', 'proj-description'])));
+      setText('pedu', formatEducation(getSectionData('educationList', ['edu-degree', 'edu-institution', 'edu-year', 'edu-details'])));
+
+      updateATS();
+      updateCompletion();
+    }
+
+    function improveSummary() {
+      const summary = getValue('summary');
+      if (!summary.trim()) return;
+      document.getElementById('summary').value = summary + ' Enhanced with stronger professional language, improved recruiter appeal, better clarity, and premium ATS-focused positioning.';
+      updatePreview();
+      saveDraft();
+    }
+
+    function suggestSkills() {
+      const role = getValue('role').toLowerCase();
+      const skillMap = {
+        'web developer': 'HTML, CSS, JavaScript, React, Node.js, Git, REST APIs, Responsive Design, UI Optimization',
+        'python developer': 'Python, Flask, Django, SQL, APIs, Automation, Pandas, Backend Development',
+        'data analyst': 'Excel, SQL, Python, Power BI, Tableau, Data Visualization, Reporting'
+      };
+      document.getElementById('skills').value = skillMap[role] || 'Communication, Problem Solving, Teamwork, Adaptability, Professional Collaboration';
+      updatePreview();
+      saveDraft();
+    }
+
+    function generateBullets() {
+      const rawText = getValue('summary');
+      const lines = rawText
+        .split('\n')
+        .filter(function(line) {
+          return line.trim() !== '';
+        })
+        .map(function(line) {
+          return '• ' + line;
+        })
+        .join('\n');
+      document.getElementById('summary').value = lines;
+      updatePreview();
+      saveDraft();
+    }
+
+    function matchJob() {
+      const jobDescription = getValue('summary').toLowerCase();
+      const skills = getValue('skills').toLowerCase();
+      const words = jobDescription.split(/\W+/).filter(function(word) {
+        return word.length > 3;
+      });
+      let matchedWords = 0;
+      words.forEach(function(word) {
+        if (skills.includes(word)) {
+          matchedWords++;
+        }
+      });
+      const score = Math.min(100, Math.floor((matchedWords / (words.length || 1)) * 100) + 30);
+      setText('match', score + '%');
+    }
+
+    function generateCover() {
+      const name = getValue('name') || 'Your Name';
+      const role = getValue('role') || 'this position';
+      const skills = getValue('skills') || 'relevant technical and professional skills';
+      const coverText = `Dear Hiring Manager,\n\nI am excited to apply for the ${role} position. With hands-on experience in ${skills}, I bring a strong combination of technical capability, practical execution, and professional commitment. My background has helped me build meaningful projects, improve digital experiences, and deliver work with focus, consistency, and measurable value.\n\nI am confident that my skills, adaptability, and commitment to quality would allow me to contribute effectively to your team and support your organization’s long-term goals.\n\nSincerely,\n${name}`;
+      const coverTextarea = document.getElementById('coverLetter');
+      if (coverTextarea) {
+        coverTextarea.value = coverText;
+      }
+    }
+
+    function updateATS() {
+      let score = 40;
+      if (getValue('summary').length > 30) score += 10;
+      if (getValue('skills').length > 20) score += 10;
+      if (getValue('languages').length > 10) score += 5;
+      if (getValue('hobbies').length > 10) score += 5;
+      if (getSectionData('experienceList', ['exp-role', 'exp-company', 'exp-period', 'exp-details']).length > 0) score += 10;
+      if (getSectionData('projectList', ['proj-title', 'proj-description']).length > 0) score += 10;
+      if (getSectionData('educationList', ['edu-degree', 'edu-institution', 'edu-year', 'edu-details']).length > 0) score += 10;
+      if (getValue('role').length > 3) score += 10;
+      if (score > 100) score = 100;
+      setText('ats', score + '/100');
+      setText('strength', score < 60 ? 'Weak' : score < 80 ? 'Good' : 'Strong');
+      document.getElementById('bar').style.width = score + '%';
+    }
+
+    function fillDemo() {
+      openBuilder();
+      document.getElementById('name').value = 'Krishna Saraswat';
+      document.getElementById('email').value = 'krishnasaraswat966@gmail.com';
+      document.getElementById('phone').value = '+91 7668168519';
+      document.getElementById('role').value = 'Web Developer';
+      document.getElementById('linkedin').value = 'https://linkedin.com/in/krishnasaraswat';
+      document.getElementById('github').value = 'https://github.com/krishnasaraswat';
+      document.getElementById('portfolio').value = 'https://yourportfolio.com';
+      document.getElementById('location').value = 'Delhi, India';
+      document.getElementById('summary').value = 'Passionate Web Developer with hands-on experience in building responsive websites, premium user interfaces, and modern digital products focused on usability, performance, and visual quality.';
+      document.getElementById('skills').value = 'HTML, CSS, JavaScript, React, Node.js, Git, Responsive Design, API Integration';
+      document.getElementById('languages').value = 'English, Hindi';
+      document.getElementById('hobbies').value = 'Reading, Travel, UI Design';
+      document.getElementById('certifications').value = 'AWS Certified Developer, Google Analytics Individual Qualification';
+      document.getElementById('achievements').value = 'Delivered multiple client websites, improved task completion time by 40%.';
+      clearContainer('educationList');
+      addEducation({degree:'Bachelor of Computer Applications (BCA)', institution:'ABC University', year:'2021', details:'Specialized in web development and software engineering.'});
+      clearContainer('experienceList');
+      addExperience({role:'Front End Developer', company:'Tech Startup', period:'2023 - Present', details:'Created responsive web applications, improved performance, and collaborated with cross-functional teams.'});
+      clearContainer('projectList');
+      addProject({title:'AI Resume Builder', description:'Developed a resume creation tool with intelligent formatting and PDF export.'});
+      updatePreview();
+      saveDraft();
+    }
+
+    function resetDraft() {
+      localStorage.removeItem(draftKey);
+      location.reload();
+    }
+
+    function downloadPDF() {
+      const resume = document.getElementById('resumePreview');
+      html2pdf().from(resume).save('resume.pdf');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeListSections();
+      loadDraft();
+      showStep(currentStep);
+    });
+  </script>
+</body>
+</html>
